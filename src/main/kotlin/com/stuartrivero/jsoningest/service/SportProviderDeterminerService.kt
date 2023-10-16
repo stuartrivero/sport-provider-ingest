@@ -3,7 +3,7 @@ package com.stuartrivero.jsoningest.service
 import org.springframework.stereotype.Service
 
 @Service
-class SportProviderService {
+class SportProviderDeterminerService {
 
     fun sportProviderFromApiKey(key: ApiKey): SportProvider? =
         SportProvider.values().firstOrNull { it.apiKey == key }

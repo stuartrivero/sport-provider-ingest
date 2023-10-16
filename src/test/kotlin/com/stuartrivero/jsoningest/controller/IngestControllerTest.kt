@@ -2,7 +2,7 @@ package com.stuartrivero.jsoningest.controller
 
 import com.ninjasquad.springmockk.MockkBean
 import com.stuartrivero.jsoningest.service.SportProvider
-import com.stuartrivero.jsoningest.service.SportProviderService
+import com.stuartrivero.jsoningest.service.SportProviderDeterminerService
 import com.stuartrivero.jsoningest.service.apiKey
 import io.mockk.every
 import org.junit.jupiter.api.Test
@@ -17,11 +17,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
 
     @MockkBean
-    lateinit var sportProviderService: SportProviderService
+    lateinit var sportProviderDeterminerService: SportProviderDeterminerService
 
     @Test
     fun `Known providers' data can be ingested `() {
-        every { sportProviderService.sportProviderFromApiKey("aKnownProvider".apiKey()) } returns SportProvider.PROV1
+        every { sportProviderDeterminerService.sportProviderFromApiKey("aKnownProvider".apiKey()) } returns SportProvider.PROV1
 
         mockMvc.perform(
             post("/ingest/golf")
@@ -33,7 +33,7 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
 
     @Test
     fun `Bad request when client is unknown`() {
-        every { sportProviderService.sportProviderFromApiKey("unKnownProvider".apiKey()) } returns null
+        every { sportProviderDeterminerService.sportProviderFromApiKey("unKnownProvider".apiKey()) } returns null
 
         mockMvc.perform(
             post("/ingest/golf")
