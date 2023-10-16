@@ -1,6 +1,7 @@
 package com.stuartrivero.jsoningest.controller
 
 import com.stuartrivero.jsoningest.service.ApiKey
+import com.stuartrivero.jsoningest.service.IngestionPipeline
 import com.stuartrivero.jsoningest.service.SportProviderDeterminerService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,14 +14,16 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/ingest")
-class IngestController (private val sportProviderDeterminerService: SportProviderDeterminerService){
+class IngestController (private val sportProviderDeterminerService: SportProviderDeterminerService, val ingestionPipeline: IngestionPipeline){
 
     @PostMapping
     @RequestMapping("/golf")
-    fun add(@RequestBody update: String, @RequestHeader("X-API-KEY") apiKey: ApiKey): ResponseEntity<String> {
+    fun add(@RequestBody data: String, @RequestHeader("X-API-KEY") apiKey: ApiKey): ResponseEntity<String> {
         if(sportProviderDeterminerService.sportProviderFromApiKey(apiKey) == null) {
             return ResponseEntity(HttpStatus.BAD_REQUEST)
         }
+
+        ingestionPipeline.ingest(data)
         return ResponseEntity("", HttpStatus.ACCEPTED)
     }
 

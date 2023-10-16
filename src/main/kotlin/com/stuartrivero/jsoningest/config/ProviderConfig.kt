@@ -4,7 +4,9 @@ import com.stuartrivero.jsoningest.model.SportProvider
 import com.stuartrivero.jsoningest.service.DataSource1Transformer
 import com.stuartrivero.jsoningest.service.DataSource2Transformer
 import com.stuartrivero.jsoningest.service.DataSourceTransformer
+import org.springframework.stereotype.Component
 
+@Component
 class ProviderConfig {
     fun transformerFor(sportProvider: SportProvider): DataSourceTransformer =
         when (sportProvider) {

@@ -2,9 +2,10 @@ package com.stuartrivero.jsoningest.controller
 
 import com.ninjasquad.springmockk.MockkBean
 import com.stuartrivero.jsoningest.model.SportProvider
+import com.stuartrivero.jsoningest.service.IngestionPipeline
 import com.stuartrivero.jsoningest.service.SportProviderDeterminerService
 import com.stuartrivero.jsoningest.service.apiKey
-import io.mockk.every
+import io.mockk.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -19,9 +20,13 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
     @MockkBean
     lateinit var sportProviderDeterminerService: SportProviderDeterminerService
 
+    @MockkBean
+    lateinit var ingestionPipeline: IngestionPipeline
+
     @Test
     fun `Known providers' data can be ingested `() {
         every { sportProviderDeterminerService.sportProviderFromApiKey("aKnownProvider".apiKey()) } returns SportProvider.PROV1
+        every { ingestionPipeline.ingest(any()) } just Runs
 
         mockMvc.perform(
             post("/ingest/golf")
@@ -29,6 +34,8 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
                 .content(sampleJson1)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isAccepted())
+
+        verify { ingestionPipeline.ingest(sampleJson1) }
     }
 
     @Test
@@ -41,6 +48,8 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
                 .content(sampleJson1)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest)
+
+        verify { ingestionPipeline wasNot Called }
     }
 
     @Test
@@ -51,6 +60,8 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
                 .content(sampleJson1)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest)
+
+        verify { ingestionPipeline wasNot Called }
     }
 }
 
