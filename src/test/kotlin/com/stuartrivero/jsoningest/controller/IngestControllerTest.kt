@@ -12,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.post
 
 @WebMvcTest
 
@@ -33,12 +32,13 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
         every { sportProviderDeterminerService.sportProviderFromApiKey("aKnownProvider".apiKey()) } returns SportProvider.PROV1
         every { ingestionPipeline.ingest(any(), any()) } just Runs
 
-        mockMvc.perform(
-            post("/ingest/golf")
-                .header("X-API-KEY", "aKnownProvider")
-                .content(sampleJson1)
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isAccepted())
+        mockMvc.post("/ingest/golf") {
+            contentType = MediaType.APPLICATION_JSON
+            header("X-API-KEY", "aKnownProvider")
+            content = (sampleJson1)
+        }.andExpect {
+            status { isAccepted() }
+        }
 
         verify { ingestionPipeline.ingest(SportProvider.PROV1, sampleJson1) }
     }
@@ -47,12 +47,13 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
     fun `Bad request when client is unknown`() {
         every { sportProviderDeterminerService.sportProviderFromApiKey("unKnownProvider".apiKey()) } returns null
 
-        mockMvc.perform(
-            post("/ingest/golf")
-                .header("X-API-KEY", "unKnownProvider")
-                .content(sampleJson1)
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isBadRequest)
+        mockMvc.post("/ingest/golf") {
+            contentType = MediaType.APPLICATION_JSON
+            header("X-API-KEY", "unKnownProvider")
+            content = (sampleJson1)
+        }.andExpect {
+            status { isBadRequest() }
+        }
 
         verify { ingestionPipeline wasNot Called }
     }
@@ -60,11 +61,12 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
     @Test
     fun `Bad request when client is unidentified`() {
 
-        mockMvc.perform(
-            post("/ingest/golf")
-                .content(sampleJson1)
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isBadRequest)
+        mockMvc.post("/ingest/golf") {
+            contentType = MediaType.APPLICATION_JSON
+            content = (sampleJson1)
+        }.andExpect {
+            status { isBadRequest() }
+        }
 
         verify { ingestionPipeline wasNot Called }
     }

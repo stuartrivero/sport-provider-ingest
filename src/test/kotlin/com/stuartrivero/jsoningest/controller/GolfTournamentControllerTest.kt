@@ -11,9 +11,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.get
 
 @WebMvcTest
 class GolfTournamentControllerTest(@Autowired val mockMvc: MockMvc) {
@@ -35,14 +33,14 @@ class GolfTournamentControllerTest(@Autowired val mockMvc: MockMvc) {
                 golfTournament.toEntity()
             )
 
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/golf/tournaments"))
-            .andExpect(status().isOk())
-            .andExpect(
-                content().string(
-                    """
-                        [{"id":null,"externalTournamentId":"1","tournamentName":"aName","startDate":"1970-01-11","endDate":"1970-01-21","golfCourse":"aCourse","hostCountryCode":"US","numRounds":2,"dataSource":"PROV1"}]
-                        """.trimIndent()
-                )
-            )
+        mockMvc.get("/golf/tournaments") {
+        }.andExpect {
+            status { isOk() }
+            content {
+                """
+                   [{"id":null,"externalTournamentId":"1","tournamentName":"aName","startDate":"1970-01-11","endDate":"1970-01-21","golfCourse":"aCourse","hostCountryCode":"US","numRounds":2,"dataSource":"PROV1"}]
+                """.trimIndent()
+            }
+        }
     }
 }
