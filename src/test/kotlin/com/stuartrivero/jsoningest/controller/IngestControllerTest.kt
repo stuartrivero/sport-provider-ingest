@@ -2,6 +2,7 @@ package com.stuartrivero.jsoningest.controller
 
 import com.ninjasquad.springmockk.MockkBean
 import com.stuartrivero.jsoningest.model.SportProvider
+import com.stuartrivero.jsoningest.repository.GolfTournamentRepository
 import com.stuartrivero.jsoningest.service.IngestionPipeline
 import com.stuartrivero.jsoningest.service.SportProviderDeterminerService
 import com.stuartrivero.jsoningest.service.apiKey
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest
+
 class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
 
     @MockkBean
@@ -22,6 +24,9 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
 
     @MockkBean
     lateinit var ingestionPipeline: IngestionPipeline
+
+    @MockkBean
+    lateinit var golfTournamentRepository: GolfTournamentRepository
 
     @Test
     fun `Known providers' data can be ingested `() {
