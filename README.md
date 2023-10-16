@@ -81,3 +81,6 @@ Consider using table for:
 * More clarification is needed on the start and end dates. The zoneId when reading is parsed as UTC. 
 * Only two countries are supported GB and US.
 * Validation is required for the inputs e.g. countryCodes, round count >= 1
+* What happens to unused fields?
+* Does the incoming json need to be saved?
+* Incoming json needs to be sanitized for insecurities

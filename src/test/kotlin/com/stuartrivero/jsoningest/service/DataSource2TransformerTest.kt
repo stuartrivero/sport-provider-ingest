@@ -10,7 +10,6 @@ import java.time.LocalDate
 
 class DataSource2TransformerTest {
 
-
     @Test
     fun `convert fails if json not complete`() {
         val json = """{
