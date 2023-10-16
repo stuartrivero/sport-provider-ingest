@@ -19,11 +19,10 @@ class IngestController (private val sportProviderDeterminerService: SportProvide
     @PostMapping
     @RequestMapping("/golf")
     fun add(@RequestBody data: String, @RequestHeader("X-API-KEY") apiKey: ApiKey): ResponseEntity<String> {
-        if(sportProviderDeterminerService.sportProviderFromApiKey(apiKey) == null) {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
+        val sportProvider = sportProviderDeterminerService.sportProviderFromApiKey(apiKey)
+            ?: return ResponseEntity(HttpStatus.BAD_REQUEST)
 
-        ingestionPipeline.ingest(data)
+        ingestionPipeline.ingest(sportProvider, data)
         return ResponseEntity("", HttpStatus.ACCEPTED)
     }
 

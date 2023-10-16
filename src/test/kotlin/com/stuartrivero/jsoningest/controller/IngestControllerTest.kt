@@ -26,7 +26,7 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
     @Test
     fun `Known providers' data can be ingested `() {
         every { sportProviderDeterminerService.sportProviderFromApiKey("aKnownProvider".apiKey()) } returns SportProvider.PROV1
-        every { ingestionPipeline.ingest(any()) } just Runs
+        every { ingestionPipeline.ingest(any(), any()) } just Runs
 
         mockMvc.perform(
             post("/ingest/golf")
@@ -35,7 +35,7 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isAccepted())
 
-        verify { ingestionPipeline.ingest(sampleJson1) }
+        verify { ingestionPipeline.ingest(SportProvider.PROV1, sampleJson1) }
     }
 
     @Test

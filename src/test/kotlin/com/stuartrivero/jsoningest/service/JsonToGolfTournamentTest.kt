@@ -17,17 +17,9 @@ class JsonToGolfTournamentTest{
         val config = mockk<ProviderConfig>()
         val dataSourceTransformer = mockk<DataSourceTransformer>()
         every { config.transformerFor(SportProvider.PROV1) } returns dataSourceTransformer
-        val golfTournament = GolfTournament(
-            "1",
-            "aName",
-            LocalDate.EPOCH.plusDays(10),
-            LocalDate.EPOCH.plusDays(20),
-            "aCourse",
-            "US",
-            2,
-            SportProvider.PROV1
-        )
+
         every { dataSourceTransformer.transform("""{}""") } returns golfTournament
+
         assertEquals(golfTournament,
             JsonToGolfTournament(config).transform(SportProvider.PROV1, """{}"""))
 
