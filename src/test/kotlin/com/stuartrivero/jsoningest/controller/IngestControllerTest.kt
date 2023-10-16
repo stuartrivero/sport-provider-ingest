@@ -1,7 +1,7 @@
 package com.stuartrivero.jsoningest.controller
 
 import com.ninjasquad.springmockk.MockkBean
-import com.stuartrivero.jsoningest.service.SportProvider
+import com.stuartrivero.jsoningest.model.SportProvider
 import com.stuartrivero.jsoningest.service.SportProviderDeterminerService
 import com.stuartrivero.jsoningest.service.apiKey
 import io.mockk.every

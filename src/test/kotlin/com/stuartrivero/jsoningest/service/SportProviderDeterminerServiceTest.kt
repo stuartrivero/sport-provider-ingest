@@ -1,8 +1,6 @@
 package com.stuartrivero.jsoningest.service
 
-import com.stuartrivero.jsoningest.service.SportProvider
-import com.stuartrivero.jsoningest.service.SportProviderDeterminerService
-import com.stuartrivero.jsoningest.service.apiKey
+import com.stuartrivero.jsoningest.model.SportProvider
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
