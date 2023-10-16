@@ -8,9 +8,9 @@ import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class DataSource1Transformer {
+class DataSource1Transformer : DataSourceTransformer {
 
-    fun transform(data: String): GolfTournament {
+    override fun transform(data: String): GolfTournament {
 
         try {
             val mapper = jacksonObjectMapper()

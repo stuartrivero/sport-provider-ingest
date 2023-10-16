@@ -7,9 +7,9 @@ import com.stuartrivero.jsoningest.model.SportProvider
 import java.time.Instant
 import java.time.ZoneOffset.UTC
 
-class DataSource2Transformer {
+class DataSource2Transformer : DataSourceTransformer{
 
-    fun transform(data: String): GolfTournament {
+    override fun transform(data: String): GolfTournament {
 
         try {
             val mapper = jacksonObjectMapper()
