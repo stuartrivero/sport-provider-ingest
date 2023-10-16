@@ -76,3 +76,7 @@ Consider using table for:
     * "forecast": "fair", 
 
 * API KEYs are hardcoded - but ideally these should be easily changeable/removable
+* Naive exception handling - using exceptions rather than results
+* More thorough testing of JSON Parsing needed
+* More clarification is needed on the start and end dates. The zoneId when reading is parsed as UTC. 
+* Only two countries are supported GB and US
