@@ -1,8 +1,6 @@
 package com.stuartrivero.jsoningest.repository
 
-import com.stuartrivero.jsoningest.model.GolfTournament
 import org.springframework.data.jpa.repository.JpaRepository
-
 import org.springframework.stereotype.Repository
 
 @Repository
