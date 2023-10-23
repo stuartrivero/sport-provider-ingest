@@ -15,13 +15,13 @@ class DataSource1TransformerTest {
     fun `convert fails if json not complete`() {
         val json = """{
             "tournamentId": "174638",
-            "tournamentName": "Women's Open Championship",
-            "forecast": "fair",
-            "courseName": "Sunnydale Golf Course",
+            "tournamentName": "Ladies Open",
+            "weather": "fair",
+            "course": "St Andreas",
             "countryCode": "GB",
             "startDate": "09/07/21",
             "endDate": "13/07/21",
-            "roundCount___WRONGLY_NAMED": "4"
+            "numRounds___WRONGLY_NAMED": "4"
         }"""
 
         assertThrows<IllegalArgumentException> { DataSource1Transformer().transform(json) }
@@ -32,22 +32,22 @@ class DataSource1TransformerTest {
 
         val json = """{
             "tournamentId": "174638",
-            "tournamentName": "Women's Open Championship",
-            "forecast": "fair",
-            "courseName": "Sunnydale Golf Course",
+            "tournamentName": "Ladies Open",
+            "weather": "fair",
+            "course": "St Andreas",
             "countryCode": "GB",
             "startDate": "09/07/21",
             "endDate": "13/07/21",
-            "roundCount": "4"
+            "numRounds": "4"
         }"""
 
         assertEquals(
             GolfTournament(
                 externalTournamentId = "174638",
-                tournamentName = "Women's Open Championship",
+                tournamentName = "Ladies Open",
                 startDate = LocalDate.of(2021, 7, 9),
                 endDate = LocalDate.of(2021, 7, 13),
-                golfCourse = "Sunnydale Golf Course",
+                golfCourse = "St Andreas",
                 hostCountryCode = "GB",
                 numRounds = 4,
                 dataSource = SportProvider.PROV1

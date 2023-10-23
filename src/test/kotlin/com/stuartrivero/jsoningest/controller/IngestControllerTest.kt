@@ -74,11 +74,11 @@ class IngestControllerTest(@Autowired val mockMvc: MockMvc) {
 
 val sampleJson1 = """{
     "tournamentId": "174638",
-    "tournamentName": "Women's Open Championship",
-    "forecast": "fair",
-    "courseName": "Sunnydale Golf Course",
+    "tournamentName": "Ladies Open",
+    "weather": "fair",
+    "course": "St Andreas",
     "countryCode": "GB",
     "startDate": "09/07/21",
     "endDate": "13/07/21",
-    "roundCount": "4"
+    "numRounds": "4"
 }""".trimMargin()

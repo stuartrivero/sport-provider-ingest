@@ -14,7 +14,7 @@ class DataSource1Transformer : DataSourceTransformer {
 
         try {
             val mapper = jacksonObjectMapper()
-            val (tournamentId, tournamentName, forecast, courseName, countryCode, startDate, endDate, roundCount) = mapper.readValue<DS1GolfTournament>(
+            val (tournamentId, tournamentName, weather, course, countryCode, startDate, endDate, numRounds) = mapper.readValue<DS1GolfTournament>(
                 data
             )
             val dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yy")
@@ -23,9 +23,9 @@ class DataSource1Transformer : DataSourceTransformer {
                 tournamentName,
                 LocalDate.parse(startDate, dateTimeFormatter),
                 LocalDate.parse(endDate, dateTimeFormatter),
-                courseName,
+                course,
                 countryCode,
-                roundCount,
+                numRounds,
                 SportProvider.PROV1
             )
         } catch (e: Exception){
@@ -37,10 +37,10 @@ class DataSource1Transformer : DataSourceTransformer {
 data class DS1GolfTournament(
     val tournamentId: String,
     val tournamentName: String,
-    val forecast: String,
-    val courseName: String,
+    val weather: String,
+    val course: String,
     val countryCode: String,
     val startDate: String,
     val endDate: String,
-    val roundCount: Int
+    val numRounds: Int
 )
